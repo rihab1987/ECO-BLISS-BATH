@@ -27,5 +27,5 @@ Les tests couvrent :
 ### Télécharger ou cloner le dépôt
 
 ```bash
-git clone https://github.com/TON-USERNAME/eco-bliss-bath-tests.git
+git clone https://github.com/rihab1987/eco-bliss-bath-tests.git
 cd eco-bliss-bath-tests

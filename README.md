@@ -1,6 +1,31 @@
-# Installation du projet
-1. Téléchargez ou clonez le dépôt
-2. Depuis un terminal ouert dans le dossier du projet, lancer la commande : `sudo docker-compose up --build`
-3. Ouvrez le site depuis la page http://localhost:8080 
+# EcoBlissBath - Tests automatisés Cypress
 
-Nb : à l'étape 2, ne pas ajouter le `sudo` si vous êtes sous Windows (sauf dernière version de Windows 11) (PowerShell ou Shell) : sudo n'existant pas et Docker Desktop configurant automatiquement Docker pour ne pas avoir besoin des droits administrateur.
+## 📝 Description du projet
+
+Eco Bliss Bath est une start-up spécialisée dans la vente de produits de beauté écoresponsables, dont le produit principal est un savon solide.  
+Ce projet contient l'automatisation des tests de validation pour leur première boutique en ligne.
+
+Les tests couvrent :
+- Les fonctionnalités critiques du site (connexion, panier).
+- Les appels API (connexion, panier, produits, avis).
+- Les tests de sécurité XSS.
+- Les smoke tests.
+
+---
+
+## 🛠 Prérequis pour exécuter le projet
+
+- **Node.js** (version 20.17.0)
+- **Docker** (pour lancer le back-end)
+- **NPM** (pour la gestion des packages Node)
+- **Cypress** (installé localement dans le projet)
+
+---
+
+## 🚀 Installation
+
+### Télécharger ou cloner le dépôt
+
+```bash
+git clone https://github.com/TON-USERNAME/eco-bliss-bath-tests.git
+cd eco-bliss-bath-tests

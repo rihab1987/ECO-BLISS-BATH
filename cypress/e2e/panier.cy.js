@@ -23,6 +23,7 @@ describe("Verification du fonctionnement du panier", () => {
             const newStock = stockNr - 1
             cy.getBySel("detail-product-stock").invoke("text").should("match", new RegExp(newStock +" en stock")) // Vérifie que le stock a été mis à jour
             cy.clearCart(); // Vider le panier après le test
+            cy.getBySel("cart-empty").should("be.visible"); // Vérifier que le panier est vide
         })
     })  
 })  
@@ -33,6 +34,7 @@ describe("Verification du contenu de panier via API", () => {
         cy.getBySel("nav-link-products").click();
         cy.getBySel("product-link").eq(4).click();
         cy.getBySel("detail-product-add").click();
+        cy.getBySel("nav-link-cart").should("be.visible"); 
     });
 
     it("Connection API pour obtenir un token", () => {
@@ -77,6 +79,10 @@ describe ("Verification des limites de saisie", () => {
         cy.getBySel ("detail-product-quantity").clear(); 
         cy.getBySel ("detail-product-quantity").type("-2"); // Saisir une quantité négative
         cy.getBySel ("detail-product-add").click(); // Cliquer sur le bouton Ajouter au panier
+        cy.url().should("include", "/products") // Vérifier que l'URL contient "/products"
+        cy.getBySel("nav-link-cart").click(); // Aller dans le panier
+        cy.getBySel("cart-empty").should("be.visible"); // Vérifier que le panier est vide
+        
     })
     
     it("Ajouter une quantité  > 20", () => {
@@ -87,11 +93,16 @@ describe ("Verification des limites de saisie", () => {
         cy.getBySel("detail-product-quantity").type("21"); // Saisir une quantité supérieure à 20
       
         cy.getBySel("detail-product-add").click(); // Cliquer sur le bouton Ajouter au panier
-        
+        cy.getBySel("nav-link-cart").click(); // Aller dans le panier
+        cy.getBySel("cart-line-delete").should("be.visible"); // Vérifier que le produit est dans le panier
+        cy.clearCart(); // Vider le panier après le test
+        cy.getBySel("cart-empty").should("be.visible"); // Vérifier que le panier est vide
+
 
     });
 })
     
+
 
 
 

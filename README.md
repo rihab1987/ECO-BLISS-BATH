@@ -17,8 +17,8 @@ Les tests couvrent :
 
 - **Node.js** (version 20.17.0)
 - **Docker** (pour lancer le back-end)
-- **NPM** (pour la gestion des packages Node)
-- **Cypress** (installé localement dans le projet)
+- **NPM** (pour la gestion des packages Node.js)
+- **Cypress** (déja installé dans dans le projet via `package.json`)
 
 ---
 
@@ -29,21 +29,26 @@ Les tests couvrent :
 ```bash
 git clone https://github.com/rihab1987/eco-bliss-bath-tests.git
 cd eco-bliss-bath-tests
+
 Back-end (API)
-Depuis un terminal ouvert dans le dossier du projet :
+depuis un terminal ouvert à la racine du projet 
 docker-compose up
+
 ➡️ Lance le serveur API (port 8081)
 docker-compose down
 ➡️ Arrête le serveur API.
 
 Front-end (Application)
-Depuis un terminal ouvert dans le dossier du projet front-end :
+Depuis un terminal ouvert dans le dossier front-end :
 npm install
 npm start
 ➡️ Le site sera accessible à l’adresse suivante :
 http://localhost:8080/#/
+
 Cypress (Tests automatisés)
-Depuis un terminal ouvert dans le dossier du projet tests :
+Depuis un terminal ouvert à la racine du projet:
+npm install : installe les dépendances y compris cypress
+
 npx cypress open
 ➡️ Ouvre Cypress en mode interactif.
 npx cypress run

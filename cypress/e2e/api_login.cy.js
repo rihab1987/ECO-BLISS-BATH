@@ -1,5 +1,5 @@
 // Tests pour vérifier l'authentification via l'API
-describe.only('API Login Test', () => {
+describe('API Login Test', () => {
      // Test 1 : Connexion réussie avec identifiants valides
     it('doit se connecter avec des identifiants valides et retourner un statut 200', () => {
       cy.request({

@@ -1,12 +1,12 @@
 // Tests de l’API commandes sans authentification
 describe("GET /orders sans authentification", () => {
-  it("doit retourner 403 lorsqu'on accède aux commandes sans être connecté", () => {
+  it("doit retourner 401 lorsqu'on accède aux commandes sans être connecté", () => {
     cy.request({
       method: "GET",
       url: "http://localhost:8081/orders",
       failOnStatusCode: false //  Ne pas faire échouer le test 
     }).then((response) => {
-      expect(response.status).to.eq(403);// On attend un refus d’accès
+      expect(response.status).to.eq(401);
     });
   });
 });
@@ -36,7 +36,7 @@ describe('API commandes', () => {
   // Ajout d’un produit disponible au panier
   it('doit ajouter un produit au panier', () => {
     cy.request({
-      method: 'POST',
+      method: 'PUT',
       url: "http://localhost:8081/orders/add",
       headers: {
         "Authorization": "Bearer " + Cypress.env('token')
@@ -53,7 +53,7 @@ describe('API commandes', () => {
    // Tentative d’ajout d’un produit en rupture de stock
   it('ne doit pas permettre l’ajout d’un produit en rupture de stock', () => {
     cy.request({
-      method: 'POST',
+      method: 'PUT',
       url: 'http://localhost:8081/orders/add',
       headers: {
         "Authorization": "Bearer " + Cypress.env('token')

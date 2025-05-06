@@ -34,9 +34,9 @@ describe('API commandes', () => {
     });
   });
   // Ajout d’un produit disponible au panier
-  it('doit ajouter un produit au panier', () => {
+  it('doit ajouter un produit au panier', () => { // Dans la Doc/api pour ajouter un produit au panier il faut faire un PUT sur /orders/add
     cy.request({
-      method: 'PUT',
+      method: 'POST',
       url: "http://localhost:8081/orders/add",
       headers: {
         "Authorization": "Bearer " + Cypress.env('token')
@@ -51,9 +51,9 @@ describe('API commandes', () => {
     });
   });
    // Tentative d’ajout d’un produit en rupture de stock
-  it('ne doit pas permettre l’ajout d’un produit en rupture de stock', () => {
+  it('ne doit pas permettre l’ajout d’un produit en rupture de stock', () => { // Dans la Doc/api pour ajouter un produit au panier même s'il est en rupture il faut faire un PUT sur /orders/add
     cy.request({
-      method: 'PUT',
+      method: 'POST',
       url: 'http://localhost:8081/orders/add',
       headers: {
         "Authorization": "Bearer " + Cypress.env('token')

@@ -3,16 +3,18 @@ describe("Verification du fonctionnement du panier", () => {
 
     it("Ajouter un produit disponible au panier(stock>1) et vérifier la mise à jour du stock", () => {
         cy.userLogin () // Connexion de l'utilisateur
-        cy.getBySel("nav-link-products").click(); // Cliquer sur l'onglet Produits
+        cy.getBySel("nav-link-products").click(); // Cliquer sur l'onglet Produits // On navigue vers la liste de produits
         cy.getBySel ("product-link").eq(4).click(); // Sélection du 5ème produit 
-        cy.getBySel("detail-product-stock").invoke('text')
+        cy.getBySel("detail-product-stock").invoke('text') // On récupère le texte brut du champ stock
+
+        // On extrait le nombre de produits en stock avec une expression régulière, et on vérifie qu’il est ≥ 1.
         .should((text) => {
             const regex = /(-?\d+) en stock/  // Expression régulière pour extraire le stock disponible
             const match = text.match(regex) // Cherche le stock dans le texte
             const stockNr = parseInt(match[1], 10) // Conversion du texte en nombre entier
             expect(stockNr).to.be.gte(1) // Vérifie que le stock est supérieur ou égal à 1      
         }).then((text) => {
-            const stockText = text.trim(); // Supprime les espaces autour du texte
+            const stockText = text.trim(); // Supprime les espaces avant et aprés dans text
             const stockNr = parseInt(stockText.match(/\d+/)) // Extraire et convertir le stock en nombre
             cy.log("Stock:"+ stockNr) // Affiche le stock dans la console
             cy.getBySel("detail-product-add").click() 
@@ -20,7 +22,7 @@ describe("Verification du fonctionnement du panier", () => {
             cy.getBySel("cart-line-name").should("be.visible").contains("Extrait de nature") // Vérifie que le produit est dans le panier
             cy.go('back') //  Retourne à la page produit
             // Vérifier si le niveau de stock a été réduit
-            const newStock = stockNr - 1
+            const newStock = stockNr - 1 // Créer une variable avec le stock attendu aprés l'ajout
             cy.getBySel("detail-product-stock").invoke("text").should("match", new RegExp(newStock +" en stock")) // Vérifie que le stock a été mis à jour
             cy.clearCart(); // Vider le panier après le test
             cy.getBySel("cart-empty").should("be.visible"); // Vérifier que le panier est vide
@@ -29,6 +31,7 @@ describe("Verification du fonctionnement du panier", () => {
 })  
 
 describe("Verification du contenu de panier via API", () => {
+    // Ajoute le produit via l’interface, pour qu’il apparaisse ensuite dans l’API.
     it("cliquer sur le bouton ajouter au panier", () => {
         cy.userLogin();
         cy.getBySel("nav-link-products").click();
@@ -36,14 +39,13 @@ describe("Verification du contenu de panier via API", () => {
         cy.getBySel("detail-product-add").click();
         cy.getBySel("nav-link-cart").should("be.visible"); 
     });
-
+    // Se connecte via l’API pour récupérer un token, stocké pour les appels suivants.
     it("Connection API pour obtenir un token", () => {
         cy.signIn("test2@test.fr", "testtest").then((token) => {
             Cypress.env('token', token); // On stocke le token en variable d’environnement
         }); 
     })  
-    
-
+    // Envoie une requête GET à l’API pour consulter le panier.
     it("Verifier que le produit a été ajouté au panier via API", () => {
         cy.request({
             method: "GET",
